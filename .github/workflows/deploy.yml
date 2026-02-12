@@ -1,0 +1,30 @@
+name: Deploy Data Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'gcp-data-pipeline/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          cd gcp-data-pipeline
+          pip install -r requirements.txt
+
+      - name: Run ETL Script
+        run: |
+          cd gcp-data-pipeline
+          python scripts/etl_job.py
